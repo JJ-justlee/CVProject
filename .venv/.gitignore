@@ -1,0 +1,5 @@
+# .idea 폴더 제외
+.idea/
+
+# Python 캐시 파일 제외
+__pycache__/
