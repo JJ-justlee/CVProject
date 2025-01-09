@@ -1,0 +1,17 @@
+# .idea 폴더 제외
+.idea/
+
+# Python 캐시 파일 제외
+__pycache__/
+
+# 가상 환경
+venv/
+
+# 캐시 파일
+__pycache__/
+
+# 환경 설정 파일
+.env
+
+# 로그 파일
+*.log
