@@ -5,6 +5,7 @@ from tkinter import Tk
 from tkinter.filedialog import askopenfilename, asksaveasfilename
 from saveImage import continueOrNo
 from threadsImage import showImage
+from weightSum import weight_sum
 
 def weightedImageBlend():
     while True:
@@ -23,13 +24,25 @@ def weightedImageBlend():
         # 두 번째 이미지를 첫 번째 이미지와 동일한 크기로 조정
         image2_resized = cv2.resize(image2, (image1.shape[1], image1.shape[0]))
 
-        blended_image = cv2.addWeighted(image1, 0.7, image2_resized, 0.3, 0.0)
+        alphaValue, betaValue = weight_sum()
 
-        # 이미지 출력 스레드 시작
-        image_thread = threading.Thread(target=showImage, args=(blended_image,))
-        image_thread.start()
+        blended_image = cv2.addWeighted(image1, alphaValue, image2_resized, betaValue, 0.0)
 
-        image_thread.join()
+        cv2.namedWindow("Blended Image", cv2.WINDOW_NORMAL)
+        cv2.imshow("Blended Image", blended_image)
+        cv2.setWindowProperty("Blended Image", cv2.WND_PROP_TOPMOST, 1)  # 최상위 설정
+
+        # 키 입력 대기 (창이 멈추지 않게)
+        cv2.waitKey(0)
+
+        # 창 닫기
+        cv2.destroyAllWindows()
+
+        # 이미지 출력과 저장할건지 안 할건지 동시에 처리하게 만들기 위해 이미지 출력 스레드 시작
+        #     image_thread = threading.Thread(target=showImage, args=(blended_image,))
+        #     image_thread.start()
+
+        #image_thread.join()
 
         saveOrNo = input("Do you want to save this image?(Yes or No): ").strip().lower()
 
